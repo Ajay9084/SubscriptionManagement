@@ -2,7 +2,7 @@ package com.example.subscription.exception;
 
 
 
-import com.example.subscription.dto.response.ErrorResponse;
+import com.example.common.dto.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

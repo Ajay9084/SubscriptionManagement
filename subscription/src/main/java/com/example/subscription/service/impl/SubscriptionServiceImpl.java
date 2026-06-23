@@ -18,6 +18,8 @@ import com.example.subscription.specification.SubscriptionSpecification;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import com.example.subscription.util.SortValidator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -28,15 +30,19 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class SubscriptionServiceImpl implements SubscriptionService {
 	private final SubscriptionRepository repository;
-//	private final ProductRepository productRepository;
 	private final SubscriptionMapper mapper;
+
+	@Value("${subscription.default.duration-days:30}")
+	private int defaultDurationDays;
 
 	@Override
 	@Transactional
@@ -115,12 +121,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 					"Subscription already exists for this customer and product");
 		}
 
+		LocalDate startDate = LocalDate.now();
 		Subscription subscription = Subscription.builder()
 				.customerId(customerId)
 				.productId(productId)
 				.status(SubscriptionStatus.CREATED)
-				.startDate(LocalDate.now())
-				.expiryDate(LocalDate.now().plusDays(30))
+				.startDate(startDate)
+				.expiryDate(startDate.plusDays(defaultDurationDays))
 				.createdAt(LocalDateTime.now())
 				.updatedAt(LocalDateTime.now())
 				.build();
@@ -170,6 +177,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 				size,
 				sortBy,
 				direction);
+
+		SortValidator.validateSubscriptionSortField(sortBy);
 
 		Sort sort = direction.equalsIgnoreCase("desc")
 				? Sort.by(sortBy).descending()
@@ -301,27 +310,25 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
 
+	private static final Set<SubscriptionStatus> CANCELLABLE_STATUSES =
+			EnumSet.of(SubscriptionStatus.CREATED, SubscriptionStatus.ACTIVE, SubscriptionStatus.SUSPENDED);
+
 	@Override
 	@Transactional
 	@CacheEvict(value = "subscriptions", key = "#id")
-	public SubscriptionResponse cancelSubscription(Long id){
+	public SubscriptionResponse cancelSubscription(Long id) {
 
 		Subscription subscription = repository.findById(id)
 				.orElseThrow(() -> new SubscriptionNotFoundException("Subscription not found for id - " + id));
 
-		SubscriptionStatus status = subscription.getStatus();
-
-		if(status != SubscriptionStatus.CREATED && status != SubscriptionStatus.ACTIVE && status != SubscriptionStatus.SUSPENDED){
-
-			throw  new InvalidStateTransitionException("Only CREATED , ACTIVE or SUSPENDED subscription can be cancelled");
+		if (!CANCELLABLE_STATUSES.contains(subscription.getStatus())) {
+			throw new InvalidStateTransitionException(
+					"Only CREATED, ACTIVE or SUSPENDED subscriptions can be cancelled");
 		}
 
 		subscription.setStatus(SubscriptionStatus.CANCELLED);
 
-		Subscription updated = repository.save(subscription);
-
-		return mapper.toResponse(updated);
-
+		return mapper.toResponse(repository.save(subscription));
 	}
 
 
@@ -335,6 +342,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 			String direction) {
 
 		log.info("Searching subscriptions with filter {}", filter);
+
+		SortValidator.validateSubscriptionSortField(sortBy);
 
 		Sort sort = direction.equalsIgnoreCase("desc")
 				? Sort.by(sortBy).descending()

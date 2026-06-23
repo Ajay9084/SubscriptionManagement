@@ -1,6 +1,7 @@
 package com.example.purchase_service.exception;
 
-import com.example.purchase_service.dto.response.ErrorResponse;
+import com.example.common.dto.response.ErrorResponse;
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -178,6 +179,30 @@ public class GlobalExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
 				.body(response);
+	}
+
+	// Feign client failure (subscription-service unreachable or returned unexpected error)
+	@ExceptionHandler(FeignException.class)
+	public ResponseEntity<ErrorResponse> handleFeignException(
+			FeignException ex,
+			HttpServletRequest request) {
+
+		log.error("Feign call to subscription-service failed with status {}", ex.status(), ex);
+
+		HttpStatus status = ex.status() >= 500
+				? HttpStatus.SERVICE_UNAVAILABLE
+				: HttpStatus.BAD_GATEWAY;
+
+		ErrorResponse response = ErrorResponse.builder()
+				.timestamp(LocalDateTime.now())
+				.status(status.value())
+				.error(status.getReasonPhrase())
+				.errorCode("SUBSCRIPTION_SERVICE_ERROR")
+				.message("Subscription service is unavailable. Please try again later.")
+				.path(request.getRequestURI())
+				.build();
+
+		return ResponseEntity.status(status).body(response);
 	}
 
 	// Generic Exception

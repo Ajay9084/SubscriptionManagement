@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
 		name = "subscription-service",
-		url = "http://localhost:8000"
+		url = "${subscription.service.url}"
 )
 public interface SubscriptionClient {
 

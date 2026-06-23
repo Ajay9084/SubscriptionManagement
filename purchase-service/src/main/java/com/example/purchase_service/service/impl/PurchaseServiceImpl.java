@@ -32,7 +32,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	private final SubscriptionClient subscriptionClient;
 
 	@Override
-	public PurchaseResponse purchaseResponse(PurchaseRequest request) {
+	public PurchaseResponse createPurchase(PurchaseRequest request) {
 
 		// Find Product
 		Product product = productRepository.findById(request.getProductId())

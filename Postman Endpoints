@@ -12,27 +12,18 @@
           "name": "Create Product",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Wireless Bluetooth Headphones\",\n  \"description\": \"Noise Cancelling Headphones\",\n  \"price\": 2999.99,\n  \"stock\": 25,\n  \"category\": \"Electronics\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\n  \"name\": \"Wireless Bluetooth Headphones\",\n  \"description\": \"Noise Cancelling Headphones\",\n  \"price\": 2999.99,\n  \"category\": \"Electronics\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "http://localhost:8001/api/products",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8001",
-              "path": [
-                "api",
-                "products"
-              ]
+              "raw": "{{purchase_service_url}}/api/products",
+              "host": ["{{purchase_service_url}}"],
+              "path": ["api", "products"]
             }
           },
           "response": []
@@ -43,17 +34,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8001/api/products/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8001",
-              "path": [
-                "api",
-                "products",
-                "1"
-              ]
+              "raw": "{{purchase_service_url}}/api/products/{{product_id}}",
+              "host": ["{{purchase_service_url}}"],
+              "path": ["api", "products", "{{product_id}}"]
             }
           },
           "response": []
@@ -64,15 +47,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8001/api/products",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8001",
-              "path": [
-                "api",
-                "products"
+              "raw": "{{purchase_service_url}}/api/products?page=0&size=10",
+              "host": ["{{purchase_service_url}}"],
+              "path": ["api", "products"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" }
               ]
             }
           },
@@ -82,28 +62,18 @@
           "name": "Update Product",
           "request": {
             "method": "PUT",
-            "header": [],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Wireless Bluetooth Headphones Pro\",\n  \"description\": \"Active Noise Cancelling\",\n  \"price\": 3499.99,\n  \"stock\": 50,\n  \"category\": \"Electronics\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\n  \"name\": \"Wireless Bluetooth Headphones Pro\",\n  \"description\": \"Active Noise Cancelling\",\n  \"price\": 3499.99,\n  \"category\": \"Electronics\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "http://localhost:8001/api/products/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8001",
-              "path": [
-                "api",
-                "products",
-                "1"
-              ]
+              "raw": "{{purchase_service_url}}/api/products/{{product_id}}",
+              "host": ["{{purchase_service_url}}"],
+              "path": ["api", "products", "{{product_id}}"]
             }
           },
           "response": []
@@ -114,17 +84,9 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:8001/api/products/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8001",
-              "path": [
-                "api",
-                "products",
-                "1"
-              ]
+              "raw": "{{purchase_service_url}}/api/products/{{product_id}}",
+              "host": ["{{purchase_service_url}}"],
+              "path": ["api", "products", "{{product_id}}"]
             }
           },
           "response": []
@@ -138,27 +100,18 @@
           "name": "Purchase Product",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"customerId\": 1,\n  \"productId\": 1,\n  \"paymentMethod\": \"Credit Card\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\n  \"customerId\": {{customer_id}},\n  \"productId\": {{product_id}},\n  \"paymentMethod\": \"Credit Card\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "http://localhost:8001/api/purchase",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8001",
-              "path": [
-                "api",
-                "purchase"
-              ]
+              "raw": "{{purchase_service_url}}/api/purchase",
+              "host": ["{{purchase_service_url}}"],
+              "path": ["api", "purchase"]
             }
           },
           "response": []
@@ -172,26 +125,18 @@
           "name": "Create Subscription",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"customerId\": 1,\n  \"productId\": 1,\n  \"startDate\": \"2026-06-19\",\n  \"expiryDate\": \"2027-10-12\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "raw": "{\n  \"customerId\": {{customer_id}},\n  \"productId\": {{product_id}},\n  \"startDate\": \"2026-06-23\",\n  \"expiryDate\": \"2027-06-23\"\n}",
+              "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "http://localhost:8000/subscriptions",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions"]
             }
           },
           "response": []
@@ -202,16 +147,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}"]
             }
           },
           "response": []
@@ -222,14 +160,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions"
+              "raw": "{{subscription_service_url}}/subscriptions?page=0&size=10&sortBy=id&direction=asc",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" },
+                { "key": "sortBy", "value": "id" },
+                { "key": "direction", "value": "asc" }
               ]
             }
           },
@@ -239,27 +177,18 @@
           "name": "Update Subscription",
           "request": {
             "method": "PUT",
-            "header": [],
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"expiryDate\": \"2027-12-31\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "options": { "raw": { "language": "json" } }
             },
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}"]
             }
           },
           "response": []
@@ -270,16 +199,9 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}"]
             }
           },
           "response": []
@@ -290,21 +212,22 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/search?status=ACTIVE",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "search"
-              ],
+              "raw": "{{subscription_service_url}}/subscriptions/search?status=ACTIVE&page=0&size=10&sortBy=createdAt&direction=desc",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "search"],
               "query": [
-                {
-                  "key": "status",
-                  "value": "ACTIVE"
-                }
+                { "key": "status", "value": "ACTIVE" },
+                { "key": "customerId", "value": "", "disabled": true },
+                { "key": "productId", "value": "", "disabled": true },
+                { "key": "startDateFrom", "value": "", "disabled": true },
+                { "key": "startDateTo", "value": "", "disabled": true },
+                { "key": "expiryDateFrom", "value": "", "disabled": true },
+                { "key": "expiryDateTo", "value": "", "disabled": true },
+                { "key": "active", "value": "", "disabled": true },
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" },
+                { "key": "sortBy", "value": "createdAt" },
+                { "key": "direction", "value": "desc" }
               ]
             }
           },
@@ -321,17 +244,9 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1/activate",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1",
-                "activate"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}/activate",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "activate"]
             }
           },
           "response": []
@@ -342,17 +257,9 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1/suspend",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1",
-                "suspend"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}/suspend",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "suspend"]
             }
           },
           "response": []
@@ -363,17 +270,9 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1/resume",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1",
-                "resume"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}/resume",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "resume"]
             }
           },
           "response": []
@@ -384,17 +283,9 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://localhost:8000/subscriptions/1/cancel",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8000",
-              "path": [
-                "subscriptions",
-                "1",
-                "cancel"
-              ]
+              "raw": "{{subscription_service_url}}/subscriptions/{{subscription_id}}/cancel",
+              "host": ["{{subscription_service_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "cancel"]
             }
           },
           "response": []
