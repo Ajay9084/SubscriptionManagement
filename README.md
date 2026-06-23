@@ -3,7 +3,7 @@
 A microservices-based Subscription and Purchase Management Platform built using **Spring Boot 3.x**, **Java 21**, **Spring Data JPA**, **OpenFeign**, and **PostgreSQL**.
 
 The repository contains two main services:
-1. **[Subscription Service](file:///home/probook/Desktop/SubscriptionManagement/subscription/)**: Manages client subscriptions, states (Active, Suspended, Resumed, Cancelled), caching via Caffeine, and scheduling tasks.
+1. **[Subscription Service](file:///home/probook/Desktop/SubscriptionManagement/subscription/)**: Manages client subscriptions, states (Active, Suspended, Resumed, Cancelled), caching via Caffeine, and scheduling tasks. 
 2. **[Purchase Service](file:///home/probook/Desktop/SubscriptionManagement/purchase-service/)**: Handles product catalog management and purchases, communicating with the Subscription Service via OpenFeign to register active subscriptions upon purchase.
 
 ---
