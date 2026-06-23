@@ -1,0 +1,37 @@
+{
+  "id": "sm-local-env",
+  "name": "Subscription Management - Local",
+  "values": [
+    {
+      "key": "subscription_service_url",
+      "value": "http://localhost:8000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "purchase_service_url",
+      "value": "http://localhost:8001",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "customer_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "product_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "subscription_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}
